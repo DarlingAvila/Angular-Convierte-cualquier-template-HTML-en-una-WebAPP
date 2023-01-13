@@ -1,33 +1,37 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Data } from '@angular/router';
 import { InfoPagina } from '../interfaces/info-pagina.interface';
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class InfoPaginaService {
 
-  info: InfoPagina  = {};
-  cargada = false;
+  info: InfoPagina = {};
+  cargada = false; 
+  equipo: any[] = [];
 
-  constructor( private htpp: HttpClient) { 
-
-    console.log('Info pagina cargada');
-
-    //leer archivo json
-
-    this.htpp.get('assets/data/data-pagina.json')
-    .subscribe( (resp: InfoPagina) => {
-
-      //hay formas para buscar (resp: any)
-      this.cargada=true;
-      this.info =resp;
-
-      console.log(resp);
-      //console.log( resp['twitter'] );
-    
-    });
-
+  constructor( private http: HttpClient) {
+    this.cargarInfo();
+    this.cargarEquipo();
 
   }
+
+  private cargarInfo(){
+    this.http.get('assets/data/data-pagina.json')
+    .subscribe((resp: InfoPagina) => {
+      this.cargada = true;
+      this.info = resp;
+    });
+
+  }
+  private cargarEquipo(){
+    this.http.get('https://angular-html-b9b10-default-rtdb.firebaseio.com/equipo.json')
+    .subscribe( (resp: any ) => {
+      this.equipo = resp;
+      console.log(resp);
+  });
+} 
 }
