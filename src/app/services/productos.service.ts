@@ -24,6 +24,7 @@ export class ProductosService {
       .subscribe( (resp: any) => {
         this.productos = resp;
         this.cargando =false;
+
         console.log(resp);
       });
 
