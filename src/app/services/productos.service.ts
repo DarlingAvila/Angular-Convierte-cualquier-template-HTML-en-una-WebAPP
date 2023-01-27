@@ -24,9 +24,12 @@ export class ProductosService {
       .subscribe( (resp: any) => {
         this.productos = resp;
         this.cargando =false;
-
-        console.log(resp);
       });
+
+  }
+  getProducto ( id: string){
+    return this.http.get(`https://angular-html-b9b10-default-rtdb.firebaseio.com/productos/${id}.json`)
+
 
   }
 }
